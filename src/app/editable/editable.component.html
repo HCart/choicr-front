@@ -1,0 +1,15 @@
+<div *ngIf="isEditing" class="editor">
+  <label>
+    <input
+      type="text"
+      name="value"
+      autofocus
+      [(ngModel)]="pendingValue"
+      (keydown.Enter)="processChanges()"
+      (keydown.Meta.Enter)="processChanges()"
+      (keydown.Escape)="cancel()"/>
+  </label>
+</div>
+<div *ngIf="( ! isEditing )" (click)="edit()">
+  {{ value }}
+</div>
