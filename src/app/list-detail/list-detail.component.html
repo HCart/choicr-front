@@ -5,12 +5,14 @@
 
     <div
       cdkDropList
+      id="positive-list"
       #pList="cdkDropList"
       [cdkDropListData]="list.positiveEntries"
       [cdkDropListConnectedTo]="[nList]"
       class="example-list"
+      (dblclick)="addEntry(list.positiveEntries)"
       (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of list.positiveEntries" cdkDrag (dblclick)="addEntry(list.positiveEntries)">
+      <div class="example-box" *ngFor="let item of list.positiveEntries" cdkDrag>
         <app-editable
           [value]="item.text"
           (valueChange)="saveText( item, $event )">
@@ -28,10 +30,12 @@
 
     <div
       cdkDropList
+      id="negative-list"
       #nList="cdkDropList"
       [cdkDropListData]="list.negativeEntries"
       [cdkDropListConnectedTo]="[pList]"
       class="example-list"
+      (dblclick)="addEntry(list.negativeEntries)"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of list.negativeEntries" cdkDrag>
         <app-editable
@@ -47,6 +51,8 @@
   </div>
 
   <div *ngIf="list.choice; else elseBlock">Fais-le !</div>
-  <ng-template #elseBlock><div>Ne le fais pas</div></ng-template>
+  <ng-template #elseBlock>
+    <div>Ne le fais pas</div>
+  </ng-template>
 </div>
 

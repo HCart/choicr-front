@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChoiceList} from '../model/ChoiceList';
 import {ListService} from '../service/list.service';
 import {ActivatedRoute} from '@angular/router';
@@ -51,20 +51,28 @@ export class ListDetailComponent implements OnInit {
   addEntry(entries: Entry[]) {
     const newEntry: Entry = new Entry();
     newEntry.weight = 0;
-    newEntry.text = '????';
+    newEntry.text = 'new entry';
 
     entries.push(newEntry);
   }
 
   drop(event: CdkDragDrop<Entry[], any>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    if (event.isPointerOverContainer) {
+      if (event.previousContainer === event.container) {
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      } else {
+
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+      }
     } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      console.log('ALLO ??');
+      event.previousContainer.data.splice(event.previousIndex, 1);
+      event.previousContainer.removeItem(event.item);
     }
+
     this.save();
   }
 }
